@@ -15,15 +15,21 @@ ln -sf $LOCALDIR LOG
 scp 172.16.16.15:/media/data/log/APP_LOG ./$LOCALDIR
 
 
-ReaderLog[0]="/home/nemochen/GateSystem/log/Application.txt"
-ReaderLog[1]="/home/nemochen/GateSystem/log/EntryReader.txt"
-ReaderLog[2]="/home/nemochen/GateSystem/log/ExitReader.txt"
-ReaderLog[3]="/home/nemochen/GateSystem/log/Mode.txt"
-ReaderLog[4]="/home/nemochen/GateSystem/log/TicketProcessing.txt"
+ReaderLogDir="/home/nemochen/GateSystem/log"
+ReaderLog[0]="Application.txt"
+ReaderLog[1]="EntryReader.txt"
+ReaderLog[2]="ExitReader.txt"
+ReaderLog[3]="Mode.txt"
+ReaderLog[4]="TicketProcessing.txt"
+
 
 for (( i = 0; i < ${#ReaderLog[@]}; i++ )); do
-	ReaderLogFiles+="${ReaderLog[i]} "
+	if (( i == 0 )); then
+		ReaderLogFiles+="${ReaderLog[i]}"
+	else
+		ReaderLogFiles+=",${ReaderLog[i]}"
+	fi
 done
 
 # Download Reader log.
-scp 172.16.16.15:"$ReaderLogFiles" ./$LOCALDIR/Reader
+scp 172.16.16.15:$ReaderLogDir/{$ReaderLogFiles} ./$LOCALDIR/Reader
