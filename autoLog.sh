@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./LogCatcher && ./OpenLogs
+./CatchLogs && ./OpenLogs
