@@ -1,0 +1,3 @@
+#!/bin/bash
+
+test -d LOG && subl LOG || echo "No Log Files to open." 

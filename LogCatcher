@@ -1,0 +1,29 @@
+#!/bin/bash
+# This script for downloading logs from server to local directory.
+
+
+# Define directory name.
+LOCALDIR="LOG`date +%Y%m%d_%H%M%S`"
+
+# If directory doesn't exist, create it.
+test -d $LOCALDIR || mkdir -p $LOCALDIR/Reader
+
+# Create soft link to the neweast log directory.
+ln -sf $LOCALDIR LOG
+
+# Download APP log.
+scp 172.16.16.15:/media/data/log/APP_LOG ./$LOCALDIR
+
+
+ReaderLog[0]="/home/nemochen/GateSystem/log/Application.txt"
+ReaderLog[1]="/home/nemochen/GateSystem/log/EntryReader.txt"
+ReaderLog[2]="/home/nemochen/GateSystem/log/ExitReader.txt"
+ReaderLog[3]="/home/nemochen/GateSystem/log/Mode.txt"
+ReaderLog[4]="/home/nemochen/GateSystem/log/TicketProcessing.txt"
+
+for (( i = 0; i < ${#ReaderLog[@]}; i++ )); do
+	ReaderLogFiles+="${ReaderLog[i]} "
+done
+
+# Download Reader log.
+scp 172.16.16.15:"$ReaderLogFiles" ./$LOCALDIR/Reader
